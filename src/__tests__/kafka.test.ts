@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const { mockConnect, mockAdmin, mockProducer } = vi.hoisted(() => {
   const mockConnect = vi.fn().mockResolvedValue(undefined);
@@ -7,24 +7,28 @@ const { mockConnect, mockAdmin, mockProducer } = vi.hoisted(() => {
   return { mockConnect, mockAdmin, mockProducer };
 });
 
-vi.mock("@confluentinc/kafka-javascript", () => ({
+vi.mock('@confluentinc/kafka-javascript', () => ({
   KafkaJS: {
     Kafka: class {
-      admin() { return mockAdmin; }
-      producer() { return mockProducer; }
+      admin() {
+        return mockAdmin;
+      }
+      producer() {
+        return mockProducer;
+      }
     },
   },
 }));
 
-describe("kafka singletons", () => {
+describe('kafka singletons', () => {
   beforeEach(() => {
     vi.resetModules();
     mockConnect.mockClear();
-    process.env.KAFKA_BROKERS = "localhost:9092";
+    process.env.KAFKA_BROKERS = 'localhost:9092';
   });
 
-  it("getAdmin returns the same promise on concurrent calls", async () => {
-    const { getAdmin } = await import("../kafka.js");
+  it('getAdmin returns the same promise on concurrent calls', async () => {
+    const { getAdmin } = await import('../kafka.js');
     const p1 = getAdmin();
     const p2 = getAdmin();
     expect(p1).toBe(p2);
@@ -33,8 +37,8 @@ describe("kafka singletons", () => {
     expect(mockConnect).toHaveBeenCalledTimes(1);
   });
 
-  it("getProducer returns the same promise on concurrent calls", async () => {
-    const { getProducer } = await import("../kafka.js");
+  it('getProducer returns the same promise on concurrent calls', async () => {
+    const { getProducer } = await import('../kafka.js');
     const p1 = getProducer();
     const p2 = getProducer();
     expect(p1).toBe(p2);

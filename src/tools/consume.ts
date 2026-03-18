@@ -1,33 +1,28 @@
-import { randomUUID } from "node:crypto";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { z } from "zod";
-import { kafka } from "../kafka.js";
+import { randomUUID } from 'node:crypto';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { z } from 'zod';
+import { kafka } from '../kafka.js';
 
 export function registerConsumeTools(server: McpServer): void {
   server.registerTool(
-    "consume",
+    'consume',
     {
-      description: "Consume messages from a Kafka topic (ephemeral consumer, reads from earliest)",
+      description: 'Consume messages from a Kafka topic (ephemeral consumer, reads from earliest)',
       inputSchema: {
-        topic: z.string().describe("Topic name"),
+        topic: z.string().describe('Topic name'),
         maxMessages: z
           .number()
           .int()
           .positive()
           .default(10)
-          .describe("Maximum number of messages to consume"),
-        timeout: z
-          .number()
-          .int()
-          .positive()
-          .default(5000)
-          .describe("Timeout in milliseconds"),
+          .describe('Maximum number of messages to consume'),
+        timeout: z.number().int().positive().default(5000).describe('Timeout in milliseconds'),
       },
     },
     async ({ topic, maxMessages, timeout }) => {
       const groupId = `mcp-consumer-${randomUUID()}`;
       const consumer = kafka.consumer({
-        "auto.offset.reset": "earliest",
+        'auto.offset.reset': 'earliest',
         kafkaJS: { groupId },
       });
 
@@ -76,7 +71,7 @@ export function registerConsumeTools(server: McpServer): void {
         return {
           content: [
             {
-              type: "text",
+              type: 'text',
               text: JSON.stringify({ messages }, null, 2),
             },
           ],
@@ -86,7 +81,7 @@ export function registerConsumeTools(server: McpServer): void {
           isError: true,
           content: [
             {
-              type: "text",
+              type: 'text',
               text: `Failed to consume messages: ${error instanceof Error ? error.message : String(error)}`,
             },
           ],
@@ -98,6 +93,6 @@ export function registerConsumeTools(server: McpServer): void {
           // ignore disconnect errors
         }
       }
-    }
+    },
   );
 }

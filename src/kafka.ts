@@ -1,16 +1,16 @@
-import { KafkaJS } from "@confluentinc/kafka-javascript";
+import { KafkaJS } from '@confluentinc/kafka-javascript';
 
 const brokers = process.env.KAFKA_BROKERS;
 if (!brokers) {
   console.error(
-    "KAFKA_BROKERS environment variable is required. Set it to a comma-separated list of broker addresses (e.g. KAFKA_BROKERS=localhost:9092)."
+    'KAFKA_BROKERS environment variable is required. Set it to a comma-separated list of broker addresses (e.g. KAFKA_BROKERS=localhost:9092).',
   );
   process.exit(1);
 }
 
 const kafka = new KafkaJS.Kafka({
   kafkaJS: {
-    brokers: brokers.split(",").map((b) => b.trim()),
+    brokers: brokers.split(',').map((b) => b.trim()),
   },
 });
 
