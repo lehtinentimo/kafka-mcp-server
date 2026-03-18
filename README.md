@@ -4,7 +4,7 @@ A Model Context Protocol (MCP) server that exposes Apache Kafka operations as to
 
 ## Prerequisites
 
-- Node.js 18+
+- Node.js 18.18+ or 20.9+
 - A running Kafka-compatible broker (Apache Kafka, Redpanda, etc.)
 
 ## Setup
@@ -105,6 +105,10 @@ The `consume` tool creates an ephemeral consumer that reads from the earliest of
 ## Development
 
 ```bash
-npm run build    # Compile TypeScript
-npm start        # Run the server
+npm run build          # Compile TypeScript
+npm start              # Run the server
+npm run lint           # Run ESLint
+npm run lint:fix       # Run ESLint with auto-fix
+npm run format         # Format code with Prettier
+npm run format:check   # Check formatting
 ```

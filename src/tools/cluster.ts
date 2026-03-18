@@ -1,11 +1,11 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { z } from "zod";
-import { getAdmin } from "../kafka.js";
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { z } from 'zod';
+import { getAdmin } from '../kafka.js';
 
 export function registerClusterTools(server: McpServer): void {
   server.registerTool(
-    "get-cluster-info",
-    { description: "Get Kafka cluster metadata including broker details" },
+    'get-cluster-info',
+    { description: 'Get Kafka cluster metadata including broker details' },
     async () => {
       try {
         const admin = await getAdmin();
@@ -37,27 +37,25 @@ export function registerClusterTools(server: McpServer): void {
           brokers: Array.from(brokerSet.values()),
         };
         return {
-          content: [
-            { type: "text", text: JSON.stringify(result, null, 2) },
-          ],
+          content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
         };
       } catch (error) {
         return {
           isError: true,
           content: [
             {
-              type: "text",
+              type: 'text',
               text: `Failed to get cluster info: ${error instanceof Error ? error.message : String(error)}`,
             },
           ],
         };
       }
-    }
+    },
   );
 
   server.registerTool(
-    "list-consumer-groups",
-    { description: "List all Kafka consumer groups" },
+    'list-consumer-groups',
+    { description: 'List all Kafka consumer groups' },
     async () => {
       try {
         const admin = await getAdmin();
@@ -70,29 +68,27 @@ export function registerClusterTools(server: McpServer): void {
           })),
         };
         return {
-          content: [
-            { type: "text", text: JSON.stringify(result, null, 2) },
-          ],
+          content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
         };
       } catch (error) {
         return {
           isError: true,
           content: [
             {
-              type: "text",
+              type: 'text',
               text: `Failed to list consumer groups: ${error instanceof Error ? error.message : String(error)}`,
             },
           ],
         };
       }
-    }
+    },
   );
 
   server.registerTool(
-    "describe-consumer-group",
+    'describe-consumer-group',
     {
-      description: "Describe a Kafka consumer group including members and their assignments",
-      inputSchema: { groupId: z.string().describe("Consumer group ID") },
+      description: 'Describe a Kafka consumer group including members and their assignments',
+      inputSchema: { groupId: z.string().describe('Consumer group ID') },
     },
     async ({ groupId }) => {
       try {
@@ -109,21 +105,19 @@ export function registerClusterTools(server: McpServer): void {
           })),
         };
         return {
-          content: [
-            { type: "text", text: JSON.stringify(result, null, 2) },
-          ],
+          content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
         };
       } catch (error) {
         return {
           isError: true,
           content: [
             {
-              type: "text",
+              type: 'text',
               text: `Failed to describe consumer group "${groupId}": ${error instanceof Error ? error.message : String(error)}`,
             },
           ],
         };
       }
-    }
+    },
   );
 }
