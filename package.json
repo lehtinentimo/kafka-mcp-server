@@ -2,6 +2,7 @@
   "name": "kafka-mcp-server",
   "version": "1.0.0",
   "description": "Kafka MCP Server",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
