@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@confluentinc/kafka-javascript": "^1.8.2",
-    "@modelcontextprotocol/sdk": "^1.27.1",
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "zod": "^3.25.0"
   },
   "devDependencies": {
